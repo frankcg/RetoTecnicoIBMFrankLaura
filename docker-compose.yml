@@ -1,0 +1,32 @@
+version: '3'
+networks:
+    ibmred:
+services:
+  node:
+    container_name: node
+    build: ./backend
+    networks:
+      ibmred:
+        aliases:
+          - backendreto
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 8080:80
+    networks:
+      ibmred:
+        aliases:
+          - nginx-ip 
+    depends_on:
+      - node
+
+  mysql:
+    container_name: mysql
+    build: ./baseDatos
+    networks:
+      ibmred:
+        aliases:
+          - mysql-ip 
+    ports:
+      - 3306:3306
